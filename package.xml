@@ -14,18 +14,17 @@ inverse trigonometric, hyperbolic, and inverse hyperbolic functions.</descriptio
   <email>jmcastagnetto@php.net</email>
   <active>yes</active>
  </lead>
- <date>2013-10-30</date>
- <time>23:15:08</time>
+ <date>2013-10-dd</date>
+ <time>hh:mm:ss</time>
  <version>
-  <release>1.0</release>
-  <api>1.0</api>
+  <release>x.y</release>
+  <api>x.y</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
- <license uri="http://www.php.net/license">PHP</license>
- <notes>Initial release under PEAR.</notes>
+ <license uri="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</license>
  <contents>
   <dir baseinstalldir="/" name="/">
    <file baseinstalldir="/" md5sum="1d26c0d7ac075f6f5dfa270c0eed1e1f" name="Math/TrigOp.php" role="php" />
