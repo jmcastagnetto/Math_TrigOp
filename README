@@ -1,8 +1,18 @@
-This package is http://pear.php.net/package/Math_TrigOp and has been migrated from http://svn.php.net/repository/pear/packages/Math_TrigOp
+# PEAR2\Math\TrigOp
+ 
+This packages includes:
+
+- A class with static methods that implement supplementary trigonometric,
+  inverse trigonometric, hyperbolic, and inverse hyperbolic functions.
+- An exception class used by the static methods
+
+**It does not have, yet, a unit test fixture **
+
+
+The package http://pear.php.net/package/Math_TrigOp and has been migrated
+from http://svn.php.net/repository/pear/packages/Math_TrigOp
 
 Please report all new issues via the PEAR bug tracker.
-
-If this package is marked as unmaintained and you have fixes, please submit your pull requests and start discussion on the pear-qa mailing list.
 
 To test, run either
 $ phpunit tests/
