@@ -1,0 +1,23 @@
+{
+    "name": "pear/math/trigop",
+    "description": "Static class with methods that implement supplementary trigonometric, inverse trigonometric, hyperbolic, and inverse hyperbolic functions",
+    "type": "library",
+    "homepage": "https://github.com/pear/Math_TrigOp",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Jesus M. Castagnetto",
+            "email": "jmcastagnetto@php.net"
+        }
+    ],
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Math_TrigOp",
+        "source": "https://github.com/pear/Math_TrigOp"
+    },
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "psr-0": { "Math_TrigOp": "" }
+    }
+}
