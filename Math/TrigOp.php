@@ -5,6 +5,7 @@
  *
  * @author	Jesus M. Castagnetto <jmcastagnetto@php.net>
  * @copyright 1997-2013 Jesus M. Castagnetto
+ * @version	x.y
  * @license http://opensource.org/licenses/BSD-3-Clause BSD 3-Clause
  */
 
@@ -27,9 +28,6 @@ if (!defined('PEAR2\MATH\TRIGOP_EPSILON')) {
  *
  * Originally this class was part of NumPHP (Numeric PHP package)
  * Modified later to take advantage of PHP5 namespaces and exceptions
- *
- * @author	Jesus M. Castagnetto <jmcastagnetto@php.net>
- * @version	1.0
  */
 class TrigOp {/*{{{*/
 
