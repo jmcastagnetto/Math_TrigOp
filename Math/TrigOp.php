@@ -19,13 +19,13 @@
 // $Id$
 //
 
-require_once 'PEAR.php';
+namespace PEAR2\Math;
 
 /**
- * MATH_TRIGOP_EPSILON
+ * PEAR2\MATH\TRIGOP_EPSILON
  */
-if (!defined('MATH_TRIGOP_EPSILON')) {
-    define('MATH_TRIGOP_EPSILON', 1E-15);
+if (!defined('PEAR2\MATH\TRIGOP_EPSILON')) {
+    define('PEAR2\MATH\TRIGOP_EPSILON', 1E-15);
 }
 
 /**
@@ -33,18 +33,16 @@ if (!defined('MATH_TRIGOP_EPSILON')) {
  *
  * Example of use:
  *
- * require_once 'Math/TrigOp.php';
- * $cot = Math_TrigOp::cot(0.3445);
- * $x = Math_TrigOp::acsch(-0.231);
- * 
+ * $cot = PEAR2\Math\TrigOp2::cot(0.3445);
+ * $x = PEAR2\Math\TrigOp2::acsch(-0.231);
+ *
  * Originally this class was part of NumPHP (Numeric PHP package)
+ * Modified later to take advantage of PHP5 namespaces and exceptions
  *
  * @author	Jesus M. Castagnetto <jmcastagnetto@php.net>
- * @version	2.0
- * @access	public
- * @package	Math_TrigOp
+ * @version	1.0
  */
-class Math_TrigOp {/*{{{*/
+class TrigOp {/*{{{*/
 
     // Trigonometric functions
 
@@ -52,117 +50,111 @@ class Math_TrigOp {/*{{{*/
      * Calculates the sine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function sin($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(sin(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(sin(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the cosine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function cos($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(cos(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(cos(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the tangent of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function tan($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
         $c = cos(floatval($x));
-        if (Math_TrigOp::isCloseToZero($c)) {
-            return PEAR::raiseError('Tangent undefined for '.$x.', cosine is too close to zero');
+        if (TrigOp2::isCloseToZero($c)) {
+            return TrigOpException('Tangent undefined for '.$x.', cosine is too close to zero');
         } else {
-            return Math_TrigOp::zeroIfVerySmall(tan(floatval($x)));
+            return TrigOp2::zeroIfVerySmall(tan(floatval($x)));
         }
     } /*}}}*/
-    
+
 	/**
 	 * Calculates the secant of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function sec($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
 		$x = floatval($x);
 		$c = cos($x);
-        if (Math_TrigOp::isCloseToZero($c)) {
-			return PEAR::raiseError('Undefined operation, cosine of parameter is zero');
+        if (TrigOp2::isCloseToZero($c)) {
+			return TrigOpException('Undefined operation, cosine of parameter is zero');
 		} else {
-            return Math_TrigOp::zeroIfVerySmall(1/$c);
+            return TrigOp2::zeroIfVerySmall(1/$c);
 		}
 	}/*}}}*/
 
 	/**
 	 * Calculates the cosecant of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function csc($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
 		$x = floatval($x);
 		$s = sin($x);
-        if (Math_TrigOp::isCloseToZero($s)) {
-			return PEAR::raiseError('Undefined operation, sine of parameter is zero');
+        if (TrigOp2::isCloseToZero($s)) {
+			return TrigOpException('Undefined operation, sine of parameter is zero');
 		} else {
-            return Math_TrigOp::zeroIfVerySmall(1/$s);
+            return TrigOp2::zeroIfVerySmall(1/$s);
 		}
 	}/*}}}*/
 
 	/**
 	 * Calculates the cotangent of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function cot($x) {/*{{{*/
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
 		$x = floatval($x);
 		$t = tan($x);
-        if (Math_TrigOp::isCloseToZero($t)) {
-			return PEAR::raiseError('Undefined operation, tangent of parameter is zero');
+        if (TrigOp2::isCloseToZero($t)) {
+			return TrigOpException('Undefined operation, tangent of parameter is zero');
 		} else {
-            return Math_TrigOp::zeroIfVerySmall(1/$t);
+            return TrigOp2::zeroIfVerySmall(1/$t);
 		}
 	}/*}}}*/
 
@@ -172,48 +164,45 @@ class Math_TrigOp {/*{{{*/
      * Calculates the inverse sine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function asin($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(asin(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(asin(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the inverse cosine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function acos($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(acos(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(acos(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the inverse tangent of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function atan($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(atan(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(atan(floatval($x)));
     } /*}}}*/
 
     /**
@@ -221,184 +210,175 @@ class Math_TrigOp {/*{{{*/
      *
      * @param float $x
      * @param float $y
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
+     * @return float A floating point on success
      * @public static
      * @access public
      */
     public static function atan2($x, $y) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(atan2(floatval($x), floatval($y)));
+        return TrigOp2::zeroIfVerySmall(atan2(floatval($x), floatval($y)));
     } /*}}}*/
 
     /**
      * Calculates the inverse secant of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function asec($x)/*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        if (Math_TrigOp::isCloseToZero($x)) {
-            return PEAR::raiseError('Value to close to zero: '.$x);
+        if (TrigOp2::isCloseToZero($x)) {
+            return TrigOpException('Value to close to zero: '.$x);
         }
         $cos = 1/$x;
-        return Math_TrigOp::zeroIfVerySmall(acos($cos));
+        return TrigOp2::zeroIfVerySmall(acos($cos));
     }/*}}}*/
-    
+
     /**
      * Calculates the inverse cosecant of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function acsc($x)/*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        if (Math_TrigOp::isCloseToZero($x)) {
-            return PEAR::raiseError('Value to close to zero: '.$x);
+        if (TrigOp2::isCloseToZero($x)) {
+            return TrigOpException('Value to close to zero: '.$x);
         }
         $sin = 1/$x;
-        return Math_TrigOp::zeroIfVerySmall(asin($sin));
+        return TrigOp2::zeroIfVerySmall(asin($sin));
     }/*}}}*/
-    
+
     /**
      * Calculates the inverse cotangent of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function acot($x)/*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        if (Math_TrigOp::isCloseToZero($x)) {
-            return PEAR::raiseError('Value to close to zero: '.$x);
+        if (TrigOp2::isCloseToZero($x)) {
+            return TrigOpException('Value to close to zero: '.$x);
         }
         $tan = 1/$x;
-        return Math_TrigOp::zeroIfVerySmall(atan($tan));
+        return TrigOp2::zeroIfVerySmall(atan($tan));
     }/*}}}*/
-    
+
 	// Hyperbolic functions
 
     /**
      * Calculates the hyperbolic sine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function sinh($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(sinh(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(sinh(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the hyperbolic cosine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function cosh($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(cosh(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(cosh(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the hyperbolic tangent of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function tanh($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(tanh(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(tanh(floatval($x)));
     } /*}}}*/
 	/**
 	 * Calculates the hyperbolic secant of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function sech ($x) {/*{{{*/
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
 		$c = cosh(floatval($x));
-        if (Math_TrigOp::isCloseToZero($c)) {
-			return PEAR::raiseError('Undefined operation, hyperbolic cosine of parameter is zero');
+        if (TrigOp2::isCloseToZero($c)) {
+			return TrigOpException('Undefined operation, hyperbolic cosine of parameter is zero');
 		} else {
-            return Math_TrigOp::zeroIfVerySmall(1/$c);
+            return TrigOp2::zeroIfVerySmall(1/$c);
 		}
 	}/*}}}*/
 
 	/**
 	 * Calculates the hyperbolic cosecant of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function csch ($x) {/*{{{*/
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
 		$s = sinh(floatval($x));
-        if (Math_TrigOp::isCloseToZero($s)) {
-			return PEAR::raiseError('Undefined operation, hyperbolic sine of parameter is zero');
+        if (TrigOp2::isCloseToZero($s)) {
+			return TrigOpException('Undefined operation, hyperbolic sine of parameter is zero');
 		} else {
-            return Math_TrigOp::zeroIfVerySmall(1/$s);
+            return TrigOp2::zeroIfVerySmall(1/$s);
 		}
 	}/*}}}*/
 
 	/**
 	 * Calculates the hyperbolic cotangent of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function coth ($x) {/*{{{*/
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
 		$t = tanh(floatval($x));
-        if (Math_TrigOp::isCloseToZero($t)) {
-			return PEAR::raiseError('Undefined operation, hyperbolic tangent of parameter is zero');
+        if (TrigOp2::isCloseToZero($t)) {
+			return TrigOpException('Undefined operation, hyperbolic tangent of parameter is zero');
 		} else {
-            return Math_TrigOp::zeroIfVerySmall(1/$t);
+            return TrigOp2::zeroIfVerySmall(1/$t);
 		}
 	}/*}}}*/
 
@@ -408,118 +388,112 @@ class Math_TrigOp {/*{{{*/
      * Calculates the inverse hyperbolic sine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function asinh($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(asinh(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(asinh(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the inverse hyperbolic cosine of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function acosh($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(acosh(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(acosh(floatval($x)));
     } /*}}}*/
 
     /**
      * Calculates the inverse hyperbolic tangent of the paramater
      *
      * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-     * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
      */
     public static function atanh($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
-        return Math_TrigOp::zeroIfVerySmall(atanh(floatval($x)));
+        return TrigOp2::zeroIfVerySmall(atanh(floatval($x)));
     } /*}}}*/
 
 	/**
 	 * Calculates the inverse hyperbolic secant of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function asech ($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
         $x = floatval($x);
-        if (Math_TrigOp::isCloseToZero($x)) {
-			return PEAR::raiseError('Undefined operation, parameter is too close zero or zero');
+        if (TrigOp2::isCloseToZero($x)) {
+			return TrigOpException('Undefined operation, parameter is too close zero or zero');
 		} else {
             $r = log((1 + sqrt(1 - $x*$x)) / $x);
-            return Math_TrigOp::zeroIfVerySmall($r);
+            return TrigOp2::zeroIfVerySmall($r);
 		}
 	}/*}}}*/
 
 	/**
 	 * Calculates the inverse hyperbolic cosecant of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function acsch ($x) /*{{{*/
     {
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
         $x = floatval($x);
-        if (Math_TrigOp::isCloseToZero($x)) {
-			return PEAR::raiseError('Undefined operation, parameter is too close zero or zero');
+        if (TrigOp2::isCloseToZero($x)) {
+			return TrigOpException('Undefined operation, parameter is too close zero or zero');
 		} elseif ($x < 0) {
-			return PEAR::raiseError('Undefined operation, parameter is negative');
+			return TrigOpException('Undefined operation, parameter is negative');
 		} else {
             $r = log((1 + sqrt(1 + $x*$x)) / $x);
-            return Math_TrigOp::zeroIfVerySmall($r);
+            return TrigOp2::zeroIfVerySmall($r);
 		}
 	}/*}}}*/
 
 	/**
 	 * Calculates the inverse hyperbolic cotangent of the parameter
-	 * 
+	 *
 	 * @param float $x
-     * @return PEAR_Error|float A floating point on success, PEAR_Error object otherwise
-     * @public static
-	 * @access public
+     * @return float A floating point on success
+     * @throws PEAR2\Math\TrigOpException
 	 */
 	public static function acoth ($x) {/*{{{*/
 
         if (!is_numeric($x)) {
-            return PEAR::raiseError('Expecting a numeric parameter');
+            return TrigOpException('Expecting a numeric parameter');
         }
         $x = floatval($x);
 		if ($x == 1.0) {
-			return PEAR::raiseError('Undefined operation, parameter is 1.0');
+			return TrigOpException('Undefined operation, parameter is 1.0');
 		} else {
 			$rat = ($x + 1)/($x - 1);
 			if ($rat < 0) {
-				return PEAR::raiseError('Undefined operation, (x+1)/(x-1) is negative');
+				return TrigOpException('Undefined operation, (x+1)/(x-1) is negative');
 			} else {
-                return Math_TrigOp::zeroIfVerySmall(0.5*log($rat));
+                return TrigOp2::zeroIfVerySmall(0.5*log($rat));
 			}
 		}
 	}/*}}}*/
@@ -527,18 +501,18 @@ class Math_TrigOp {/*{{{*/
     /**
      * Figures out if (value) is in [-epsilon, epsilon]
      */
-    private static function isCloseToZero($value) /*{{{*/
+    protected static function isCloseToZero($value) /*{{{*/
     {
-        return ($value <= MATH_TRIGOP_EPSILON && $value >= -1*MATH_TRIGOP_EPSILON);
+        return ($value <= PEAR2\MATH\TRIGOP_EPSILON && $value >= -1*PEAR2\MATH\TRIGOP_EPSILON);
     }/*}}}*/
 
     /**
      * If (value) is in [-epsilon, epsilon], then return 0 (zero),
      * otherwise return the value unchanged
      */
-    private static function zeroIfVerySmall($value) /*{{{*/
+    protected static function zeroIfVerySmall($value) /*{{{*/
     {
-        if (Math_TrigOp::isCloseToZero($value)) {
+        if (TrigOp2::isCloseToZero($value)) {
             return 0.0;
         } else {
             return $value;
@@ -546,4 +520,3 @@ class Math_TrigOp {/*{{{*/
     }/*}}}*/
 
 }/*}}}*/
-?>
